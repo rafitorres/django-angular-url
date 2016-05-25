@@ -1,0 +1,35 @@
+{
+	"name": "django-angular-url",
+	"description": "Manage Django URLs for AngularJS",
+	"version": "0.1.0",
+	"homepage": "https://github.com/rafitorres/django-angular-url",
+	"author": {
+		"name": "Rafael Torres",
+		"email": ""
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/rafitorres/django-angular-url.git"
+	},
+	"bugs": {
+		"url": "https://github.com/rafitorres/django-angular-url/issues"
+	},
+	"licenses": [{
+		"type": "MIT",
+		"url": "https://github.com/rafitorres/django-angular-url/LICENSE.txt"
+	}],
+	"dependencies": {},
+	"devDependencies": {
+		"karma": "latest",
+		"karma-firefox-launcher": "latest",
+		"karma-chrome-launcher": "latest",
+		"karma-jasmine": "latest",
+		"grunt": "latest",
+		"grunt-contrib-concat": "latest",
+		"grunt-contrib-jshint": "latest",
+		"grunt-contrib-uglify": "latest",
+		"grunt-ngmin": "latest",
+		"grunt-karma": "latest"
+	},
+	"keywords": ["Django", "AngularJS"]
+}
