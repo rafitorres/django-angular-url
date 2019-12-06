@@ -1,8 +1,25 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+import django
+from distutils.version import StrictVersion
 
-from django.core.urlresolvers import (
-    get_resolver, RegexURLResolver, RegexURLPattern)
+DJANGO_VERSION = django.get_version()
+
+strict_django = StrictVersion(DJANGO_VERSION)
+strict_django_20 = StrictVersion('2.0')
+
+if strict_django >= strict_django_20:
+    from django.urls import (
+        get_resolver,
+        URLResolver,
+        URLPattern
+    )
+else:
+    from django.core.urlresolvers import (
+        get_resolver,
+        RegexURLResolver as URLResolver,
+        RegexURLPattern as URLPattern
+    )
 
 
 def regex_pattern_to_url(pattern):
@@ -26,28 +43,33 @@ def get_url_patterns(patterns, namespace=None, parent_regex=None,
     pattern_dict = {}
     for pattern in patterns:
 
-        if isinstance(pattern, RegexURLResolver):  # included namespace
+        if isinstance(pattern, URLResolver):  # included namespace
             # Recursively call self with parent namespace name and parent regex
-            include_namespace = ":".join(
-                filter(None, [namespace, pattern.namespace]))
-            include_regex = "".join(
-                filter(None, [parent_regex, pattern.regex.pattern]))
+            if strict_django >= strict_django_20:
+                reg_pattern = pattern.pattern
+            else:
+                reg_pattern = pattern.regex.pattern
+            include_namespace = ":".join(filter(None, [namespace, pattern.namespace]))
+            include_regex = "".join(filter(None, [parent_regex, reg_pattern]))
             included_patterns = get_url_patterns(
                 pattern.url_patterns,
                 namespace=include_namespace,
                 parent_regex=include_regex,
-                filter_namespaces=filter_namespaces)
+                filter_namespaces=filter_namespaces
+            )
             pattern_dict.update(included_patterns)
 
-        elif isinstance(pattern, RegexURLPattern) and matches_namespace:
+        elif isinstance(pattern, URLPattern) and matches_namespace:
             # Join own name with parent namespace name,
             # if one is passed as namespace keyword argument
             # Join own regex with parent regex,
             # if one is passed as parent_regex keyword argument
-            name = ":".join(
-                filter(None, [namespace, pattern.name]))
-            regex = "".join(
-                filter(None, [parent_regex, pattern.regex.pattern]))
+            name = ":".join(filter(None, [namespace, pattern.name]))
+            if strict_django >= strict_django_20:
+                reg_pattern = pattern.pattern.regex.pattern
+            else:
+                reg_pattern = pattern.regex.pattern
+            regex = "".join(filter(None, [parent_regex, reg_pattern]))
             pattern_dict[name] = regex_pattern_to_url(regex)
 
     return pattern_dict

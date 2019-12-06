@@ -15,11 +15,15 @@ CLASSIFIERS = [
     'Development Status :: 4 - Beta',
     'Programming Language :: Python :: 2.7',
     'Programming Language :: Python :: 3.3',
+    'Programming Language :: Python :: 3.6',
+    'Programming Language :: Python :: 3.7',
 ]
+
 
 def read(fname):
     readme_file = os.path.join(os.path.dirname(__file__), fname)
     return os.popen('[ -x "$(which pandoc 2>/dev/null)" ] && pandoc -t rst {0} || cat {0}'.format(readme_file)).read()
+
 
 setup(
     name='django-angular-url',
@@ -31,6 +35,9 @@ setup(
     url='https://github.com/rafitorres/django-angular-url',
     license='MIT',
     keywords=['django', 'angularjs'],
+    install_requires=[
+        'django>=1.11',
+    ],
     platforms=['OS Independent'],
     classifiers=CLASSIFIERS,
     packages=find_packages(exclude=[]),
