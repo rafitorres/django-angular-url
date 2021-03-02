@@ -46,7 +46,7 @@ def get_url_patterns(patterns, namespace=None, parent_regex=None,
         if isinstance(pattern, URLResolver):  # included namespace
             # Recursively call self with parent namespace name and parent regex
             if strict_django >= strict_django_20:
-                reg_pattern = pattern.pattern
+                reg_pattern = pattern.pattern.regex.pattern
             else:
                 reg_pattern = pattern.regex.pattern
             include_namespace = ":".join(filter(None, [namespace, pattern.namespace]))
