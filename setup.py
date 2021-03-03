@@ -33,6 +33,7 @@ setup(
     author_email='',
     description=DESCRIPTION,
     long_description=read('README.md'),
+    long_description_content_type="text/markdown",
     url='https://github.com/rafitorres/django-angular-url',
     license='MIT',
     keywords=['django', 'angularjs'],
